@@ -3,17 +3,65 @@
 
 <img src="examples/laneLines_thirdPass.jpg" width="480" alt="Combined Image" />
 
-Overview
 ---
 
-When we drive, we use our eyes to decide where to go.  The lines on the road that show us where the lanes are act as our constant reference for where to steer the vehicle.  Naturally, one of the first things we would like to do in developing a self-driving car is to automatically detect lane lines using an algorithm.
+**Finding Lane Lines on the Road**
 
-In this project you will detect lane lines in images using Python and OpenCV.  OpenCV means "Open-Source Computer Vision", which is a package that has many useful tools for analyzing images.  
+The goals / steps of this project are the following:
+* Make a pipeline that finds lane lines on the road
 
-To complete the project, two files will be submitted: a file containing project code and a file containing a brief write up explaining your solution. We have included template files to be used both for the [code](https://github.com/udacity/CarND-LaneLines-P1/blob/master/P1.ipynb) and the [writeup](https://github.com/udacity/CarND-LaneLines-P1/blob/master/writeup_template.md).The code file is called P1.ipynb and the writeup template is writeup_template.md 
 
-To meet specifications in the project, take a look at the requirements in the [project rubric](https://review.udacity.com/#!/rubrics/322/view)
+[//]: # (Image References)
 
+[image1]: ./examples/masked_img.jpg "masked_img"
+[image2]: ./examples/gray.jpg "gray"
+[image3]: ./examples/blur.jpg "blur"
+[image4]: ./examples/edge.jpg "edge"
+[image5]: ./examples/roi.jpg "roi"
+[image6]: ./examples/lines.jpg "lines"
+[image7]: ./examples/result.jpg "result"
+
+
+---
+
+Overview
+---
+### Reflection
+
+### 1. Description your pipeline. 
+
+My pipeline consisted of 5 steps. First, I applied color masking scheme to mask white and yello pixels to detect while and yellow lane lines. Then I convereted the colored mask image to grayscale and then applied gaussian filter for smoothening the image with kernel size of 3. After that I applied canny edge detector to get edge lines. Before starting the pipeline, I initialized values to specify a trapezoidal region of interest i.e width of top and bottom and as well as the height. Then by image shape vertices of the trapezoid are calculated and passed as parameter to region_of_interest function to get only the interesting region in the complete image. At the end hough lines are identified in the region of interest and the lines are drawn over the top of the image.
+
+
+In order to draw a single line on the left and right lanes, I modified the draw_lines() function by first identifying points (i.e x, y) that belonged to the left lane and right lane depending on the slope. Any possible lane would have absolute slope more than 0.5. In the case of left lane, slope was found to be negative whereas positive for right lane. After seperating points that would have contibuted to left lane and right lane, I fit a line through these points to get slope and intercept values for left and right lane. Since, we already know region of interest in the entire image i.e top and bottom y values for the trapeziod(ROI), I initialized two y values - one for the top and other for bottom upto which we need to extrapolate the lines and using the slope and intercept values, calculated x values for all the four vertices i.e 2 vertices belong to left lane and the other two to the right lane.
+At the end, I receive (x,y) value for starting and end of left lane and right lane.
+
+Another addition to the algorithm used to draw lines is that there were times when all the slope values calculated beloned to either left or right lane. In such cases, previous slope and intercept values were used to represent the lane for which no slope value was detected.
+
+If you'd like to include images to show how the pipeline works, here is how to include an image: 
+
+![alt text][image1]
+![alt text][image2]
+![alt text][image3]
+![alt text][image4]
+![alt text][image5]
+![alt text][image6]
+![alt text][image7]
+
+
+### 2. Potential shortcomings with current pipeline
+
+
+One potential shortcoming would be what would happen when the lanes we see in the video are not staright lines but instead curves of higher order. This alogorithm of fiting a line would fail there.
+
+Another shortcoming is the lanes as seen in the video are very jittery. They are not very smooth.
+
+
+### 3. Possible improvements to your pipeline
+
+A possible improvement would be to use previously identified lane lines to limit the search process for lane lines in the next frames. This would reduce the exhaustive search through the entire image as is happening now.
+
+Another potential improvement could be to fit higher order curves for lane lines instead of straight lines or any algorithm that would incorporate different degree of lane lines.
 
 Creating a Great Writeup
 ---
