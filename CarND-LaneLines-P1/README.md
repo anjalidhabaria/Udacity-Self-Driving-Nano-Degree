@@ -26,9 +26,8 @@ The goals / steps of this project are the following:
 
 Overview
 ---
-### Reflection
 
-### 1. Description your pipeline. 
+### 1. Description of the pipeline. 
 
 My pipeline consisted of 6 steps. First, I applied color masking scheme to mask white and yello pixels to detect while and yellow lane lines. Then I convereted the colored mask image to grayscale and then applied gaussian filter for smoothening the image with kernel size of 3. After that I applied canny edge detector to get edge lines. Before starting the pipeline, I initialized values to specify a trapezoidal region of interest i.e width of top and bottom and as well as the height. Then by image shape vertices of the trapezoid are calculated and passed as parameter to region_of_interest function to get only the interesting region in the complete image. At the end hough lines are identified in the region of interest and the lines are drawn over the top of the image.
 
