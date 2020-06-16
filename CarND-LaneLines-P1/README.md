@@ -37,7 +37,7 @@ At the end, I receive (x,y) value for starting and end of left lane and right la
 
 Another addition to the algorithm used to draw lines is that there were times when all the slope values calculated beloned to either left or right lane. In such cases, previous slope and intercept values were used to represent the lane for which no slope value was detected.
 
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+Few images to show how the pipeline works: 
 
 ![Color Masked Image][image1]
 ![Gray Scale Image][image2]
